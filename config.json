@@ -1,0 +1,11 @@
+{
+  "account": "GFCMORN-LQB43413",
+  "user": "SIJANJOSHI",
+  "password": "Rorono@9998700",
+  "authenticator": "externalbrowser",
+  "role": "ACCOUNTADMIN",
+  "warehouse": "COMPUTE_WH",
+  "database": "IOE",
+  "schema": "SCHEMA",
+  "log_path": "./logs/snowflake.log"
+}
