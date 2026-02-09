@@ -1,0 +1,2 @@
+2026-02-09 14:54:24.494055: Executing query: SELECT CURRENT_VERSION()
+2026-02-09 14:54:24.870696: Query Result: [('10.3.1',)]

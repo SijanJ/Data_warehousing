@@ -1,0 +1,25 @@
+2026-02-09 15:14:30.188523: Executing query: TRUNCATE TABLE TEMP.TMP_D_PRODUCT
+2026-02-09 15:14:30.783808: Query Result: [('Statement executed successfully.',)]
+2026-02-09 15:14:30.783808: Executing query: 
+                INSERT INTO TEMP.TMP_D_PRODUCT
+                (PRODUCT_ID, PRODUCT_NAME, CATEGORY, SUB_CATEGORY)
+                SELECT DISTINCT PRODUCT_ID
+                ,PRODUCT_NAME
+                ,CATEGORY      
+                ,SUB_CATEGORY          
+                FROM STAGE.STG_D_PRODUCT
+            
+2026-02-09 15:14:31.814010: Query Result: [(36,)]
+2026-02-09 15:14:31.815015: Executing query: 
+                MERGE INTO TARGET.TGT_D_PRODUCT AS TGT
+                USING TEMP.TMP_D_PRODUCT AS TMP
+                    ON TGT.PRODUCT_ID = TMP.PRODUCT_ID
+                WHEN MATCHED THEN
+                    UPDATE SET TGT.PRODUCT_NAME = TMP.PRODUCT_NAME, 
+                    TGT.CATEGORY = TMP.CATEGORY,
+                    TGT.SUB_CATEGORY = TMP.SUB_CATEGORY
+                WHEN NOT MATCHED THEN
+                    INSERT (TGT.PRODUCT_ID, TGT.PRODUCT_NAME, TGT.CATEGORY, TGT.SUB_CATEGORY)
+                    VALUES (TMP.PRODUCT_ID, TMP.PRODUCT_NAME, TMP.CATEGORY, TMP.SUB_CATEGORY);
+            
+2026-02-09 15:14:32.936781: Query Result: [(36, 0)]

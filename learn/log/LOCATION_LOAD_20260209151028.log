@@ -1,0 +1,27 @@
+2026-02-09 15:10:30.085531: Executing query: TRUNCATE TABLE TEMP.TMP_D_LOCATION
+2026-02-09 15:10:30.594867: Query Result: [('Statement executed successfully.',)]
+2026-02-09 15:10:30.594867: Executing query: 
+                INSERT INTO TEMP.TMP_D_LOCATION
+                (COUNTRY, REGION, STATE, CITY, POSTAL_CODE)
+                SELECT DISTINCT COUNTRY
+                ,REGION
+                ,STATE
+                ,CITY
+                ,POSTAL_CODE                
+                FROM STAGE.STG_D_LOCATION
+            
+2026-02-09 15:10:31.587681: Query Result: [(25,)]
+2026-02-09 15:10:31.589690: Executing query: 
+                MERGE INTO TARGET.TGT_D_LOCATION AS TGT
+                USING TEMP.TMP_D_LOCATION AS TMP
+                    ON TGT.POSTAL_CODE = TMP.POSTAL_CODE
+                WHEN MATCHED THEN
+                    UPDATE SET TGT.COUNTRY = TMP.COUNTRY, 
+                    TGT.REGION = TMP.REGION,
+                    TGT.STATE = TMP.STATE,
+                    TGT.CITY = TMP.CITY
+                WHEN NOT MATCHED THEN
+                    INSERT (TGT.COUNTRY, TGT.REGION, TGT.STATE, TGT.CITY, TGT.POSTAL_CODE)
+                    VALUES (TMP.COUNTRY, TMP.REGION, TMP.STATE, TMP.CITY, TMP.POSTAL_CODE);
+            
+2026-02-09 15:10:32.496039: Query Result: [(25, 0)]

@@ -1,0 +1,2 @@
+2026-02-09 15:02:08.292555: Executing query: SELECT * FROM LANDING.SALES
+2026-02-09 15:02:08.798280: Query Result: [('1', None, None, None, None, None, 'Product A', None, None, None, None, None, None, None, None, None, None, None, '100', None, None)]

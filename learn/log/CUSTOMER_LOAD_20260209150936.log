@@ -1,0 +1,23 @@
+2026-02-09 15:09:39.056529: Executing query: TRUNCATE TABLE TEMP.TMP_D_CUSTOMER
+2026-02-09 15:09:39.774690: Query Result: [('Statement executed successfully.',)]
+2026-02-09 15:09:39.774690: Executing query: 
+                INSERT INTO TEMP.TMP_D_CUSTOMER
+                (CUSTOMER_ID, CUSTOMER_NAME, SEGMENT)
+                SELECT DISTINCT CUSTOMER_ID
+                ,CUSTOMER_NAME
+                ,SEGMENT                
+                FROM STAGE.STG_D_CUSTOMER
+            
+2026-02-09 15:09:41.102653: Query Result: [(2000,)]
+2026-02-09 15:09:41.102653: Executing query: 
+                MERGE INTO TARGET.TGT_D_CUSTOMER AS TGT
+                USING TEMP.TMP_D_CUSTOMER AS TMP
+                    ON TGT.CUSTOMER_ID = TMP.CUSTOMER_ID
+                WHEN MATCHED THEN
+                    UPDATE SET TGT.CUSTOMER_NAME = TMP.CUSTOMER_NAME, 
+                    TGT.SEGMENT = TMP.SEGMENT
+                WHEN NOT MATCHED THEN
+                    INSERT (TGT.CUSTOMER_ID, TGT.CUSTOMER_NAME, TGT.SEGMENT)
+                    VALUES (TMP.CUSTOMER_ID, TMP.CUSTOMER_NAME, TMP.SEGMENT);
+            
+2026-02-09 15:09:42.120805: Query Result: [(2000, 0)]
